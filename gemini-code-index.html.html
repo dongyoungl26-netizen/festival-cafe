@@ -35,6 +35,7 @@
       background-repeat: repeat-x;
     }
 
+    /* 영수증 HOT / ICE / DESSERT 색상 배지 */
     .badge-hot {
       background-color: #FEE2E2 !important;
       color: #B91C1C !important;
@@ -57,6 +58,7 @@
       print-color-adjust: exact !important;
     }
 
+    /* 80mm 감열지 프린터 인쇄 전용 스타일 */
     @media print {
       * {
         -webkit-print-color-adjust: exact !important;
@@ -105,8 +107,9 @@
   <!-- 상단 헤더 -->
   <header class="sticky top-0 z-30 bg-[#FFFDF9]/95 backdrop-blur border-b-2 border-[#F0E4D4]">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+      <!-- 왼쪽 로고 (3연속 클릭 시 운영진 비밀번호창 열림) -->
       <button type="button" id="brandLogoBtn" onclick="handleLogoSecretTap()"
-        class="flex items-center gap-2.5 text-left group focus:outline-none select-none"
+        class="flex items-center gap-2.5 text-left group focus:outline-none select-none cursor-pointer"
         title="축제 바리스타 카페">
         <div class="w-10 h-10 rounded-2xl bg-[#5D4037] text-white flex items-center justify-center text-xl shadow-sm group-active:scale-95 transition">
           ☕
@@ -120,8 +123,9 @@
         </div>
       </button>
 
+      <!-- 오른쪽: 연동 상태 뱃지 + 운영진 대시보드 버튼 -->
       <div class="flex items-center gap-2">
-        <span id="syncStatusBadge" class="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F5EFE6] text-[#6D4C41]">
+        <span id="syncStatusBadge" class="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F5EFE6] text-[#6D4C41]">
           <span id="syncDot" class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
           <span id="syncText">실시간 주문 가능</span>
         </span>
@@ -137,6 +141,7 @@
 
   <!-- ==================== 1. 교사 주문 화면 ==================== -->
   <main id="orderView" class="flex-1 max-w-6xl w-full mx-auto px-4 py-6 pb-28 lg:pb-10">
+    <!-- 상단 안내 배너 -->
     <div class="mb-6 rounded-3xl bg-gradient-to-r from-[#FDF3E7] via-[#FAF0E4] to-[#FCECE8] border-2 border-[#F2DFC8] p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
       <div class="flex items-center gap-3">
         <span class="text-3xl">🧁</span>
@@ -151,7 +156,9 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <!-- 왼쪽: 메뉴판 (7컬럼) -->
       <section class="lg:col-span-7 space-y-4">
+        <!-- 카테고리 필터 -->
         <div class="flex items-center gap-2 overflow-x-auto pb-1">
           <button type="button" onclick="setCategory('all')" data-cat="all"
             class="cat-btn px-4 py-2 rounded-full text-xs sm:text-sm font-bold bg-[#5D4037] text-white shadow-xs transition cursor-pointer">
@@ -159,7 +166,7 @@
           </button>
           <button type="button" onclick="setCategory('coffee')" data-cat="coffee"
             class="cat-btn px-4 py-2 rounded-full text-xs sm:text-sm font-bold bg-white text-[#6D4C41] border border-[#E6D7C3] hover:bg-[#FAF4EC] transition cursor-pointer">
-            ☕ 커피 (HOT/ICE)
+            ☕ 커피 · 라떼 (HOT/ICE)
           </button>
           <button type="button" onclick="setCategory('ade')" data-cat="ade"
             class="cat-btn px-4 py-2 rounded-full text-xs sm:text-sm font-bold bg-white text-[#6D4C41] border border-[#E6D7C3] hover:bg-[#FAF4EC] transition cursor-pointer">
@@ -171,9 +178,11 @@
           </button>
         </div>
 
+        <!-- 메뉴 그리드 -->
         <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5"></div>
       </section>
 
+      <!-- 오른쪽: 장바구니 & 주문서 (5컬럼) -->
       <aside id="orderPanel" class="lg:col-span-5 cafe-card rounded-3xl p-5 space-y-5 lg:sticky lg:top-20">
         <div class="flex items-center justify-between border-b border-[#F2E7D9] pb-3">
           <h2 class="text-base sm:text-lg font-extrabold text-[#3E2723] flex items-center gap-2">
@@ -184,12 +193,14 @@
           </button>
         </div>
 
+        <!-- 장바구니 리스트 -->
         <div id="cartList" class="space-y-2.5 max-h-60 overflow-y-auto pr-1">
           <div class="text-center py-8 text-sm text-[#A1887F] bg-[#FAF6F0] rounded-2xl border border-dashed border-[#E6D8C7]">
             아직 담은 메뉴가 없어요.<br/>왼쪽에서 원하시는 메뉴를 선택해 주세요! ☕
           </div>
         </div>
 
+        <!-- 수령 방법 & 배달 장소 -->
         <div class="space-y-3 pt-1 border-t border-[#F2E7D9]">
           <label class="block text-xs font-extrabold text-[#5D4037]">1. 수령 방법 및 배달 희망 장소</label>
           <div class="grid grid-cols-2 gap-2">
@@ -221,6 +232,7 @@
           </div>
         </div>
 
+        <!-- 결제 수단 (현금 / 계좌이체만 가능, 카드결제 불가) -->
         <div class="space-y-2.5 pt-1 border-t border-[#F2E7D9]">
           <div class="flex items-center justify-between">
             <label class="text-xs font-extrabold text-[#5D4037]">2. 결제 수단 선택</label>
@@ -237,6 +249,7 @@
             </button>
           </div>
 
+          <!-- 계좌이체 선택 시 계좌 안내 박스 -->
           <div id="transferInfoBox" class="hidden rounded-2xl bg-[#FDF6EC] border border-[#EAD4B7] p-3 space-y-2 text-xs">
             <div class="flex items-center justify-between gap-2">
               <div>
@@ -253,11 +266,13 @@
           </div>
         </div>
 
+        <!-- 요청사항 -->
         <div>
           <input type="text" id="orderMemo" placeholder="요청사항 (예: 얼음 적게, 캐리어 부탁드려요)"
             class="w-full px-3.5 py-2 rounded-2xl text-xs bg-[#FAF6F0] border border-[#E2D2BE] focus:outline-none focus:border-[#5D4037] focus:bg-white" />
         </div>
 
+        <!-- 합계 및 주문 버튼 -->
         <div class="pt-3 border-t-2 border-dashed border-[#EADBC8] space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-sm font-bold text-[#6D4C41]">총 결제 예정 금액</span>
@@ -272,6 +287,7 @@
     </div>
   </main>
 
+  <!-- 모바일 하단 장바구니 요약 바 -->
   <div id="mobileCartBar" class="lg:hidden fixed bottom-0 inset-x-0 z-20 bg-white/95 backdrop-blur border-t-2 border-[#EADBC8] px-4 py-3 flex items-center justify-between shadow-lg">
     <div>
       <p class="text-[11px] font-bold text-[#8D6E63]">담은 메뉴 <span id="mobileCartCount" class="text-[#C85A48]">0</span>개</p>
@@ -285,15 +301,29 @@
 
   <!-- ==================== 2. 운영진 전용 대시보드 화면 ==================== -->
   <section id="adminView" class="hidden flex-1 max-w-6xl w-full mx-auto px-4 py-6 space-y-6">
-    <div class="cafe-card rounded-3xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <!-- 대시보드 상단 바 -->
+    <div class="cafe-card rounded-3xl p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
       <div>
         <div class="flex items-center gap-2">
           <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-[#5D4037] text-white">운영진 전용</span>
           <h2 class="text-lg sm:text-xl font-black text-[#3E2723]">카페 실시간 주문 & 매출 대시보드</h2>
         </div>
-        <p class="text-xs text-[#795548] mt-1">구글 시트 실시간 동기화, 다중 합동 프린트 및 주문 수량별 개별 영수증 출력을 지원합니다.</p>
+        <p class="text-xs text-[#795548] mt-1">10초 자동 동기화 · 새 주문 접수 시 <b>"딩동~♪" 벨소리 알림</b> · 수량별 개별 영수증 출력 지원</p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
+        <!-- 알림음 ON/OFF + 벨소리 테스트 버튼 -->
+        <div class="inline-flex items-center rounded-2xl bg-[#FFF8E7] border border-[#F2DFC8] p-1 gap-1">
+          <button type="button" id="soundToggleBtn" onclick="toggleSoundEnabled()"
+            class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-[#F59E0B] text-white shadow-xs transition cursor-pointer">
+            🔔 알림음 켜짐
+          </button>
+          <button type="button" onclick="testOrderChime()"
+            class="px-2.5 py-1.5 rounded-xl text-xs font-extrabold bg-white hover:bg-[#FEF3C7] text-[#92400E] border border-[#FDE68A] transition cursor-pointer"
+            title="브라우저 알림음 권한 활성화 및 벨소리 테스트">
+            🔊 벨소리 테스트
+          </button>
+        </div>
+
         <button type="button" onclick="syncOrdersFromServer(true)"
           class="px-3.5 py-2 rounded-2xl text-xs font-extrabold bg-[#E8F3FC] hover:bg-[#D4E9FA] text-[#1D4ED8] border border-[#BBDDF8] cursor-pointer">
           🔄 새로고침
@@ -304,11 +334,12 @@
         </button>
         <button type="button" onclick="exitAdminView()"
           class="px-3.5 py-2 rounded-2xl text-xs font-extrabold bg-[#F5EFE6] hover:bg-[#EBDCC8] text-[#5D4037] border border-[#DFCBB5] cursor-pointer">
-          ← 주문 화면으로 나가기
+          ← 주문 화면으로
         </button>
       </div>
     </div>
 
+    <!-- 핵심 요약 카드 4종 -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
       <div class="cafe-card rounded-3xl p-4">
         <p class="text-xs font-bold text-[#8D6E63]">총 누적 매출</p>
@@ -328,11 +359,13 @@
       <div class="cafe-card rounded-3xl p-4 border-l-4 border-l-emerald-600">
         <p class="text-xs font-bold text-emerald-700">판매 완료</p>
         <p id="statCompletedOrders" class="text-xl sm:text-2xl font-black text-emerald-700 mt-1">0건</p>
-        <p class="text-[11px] text-[#795548] mt-1">전달 및 정산 완료</p>
+        <p id="statCompletedSub" class="text-[11px] text-[#795548] mt-1">전달 및 정산 완료</p>
       </div>
     </div>
 
+    <!-- 메뉴별 판매 집계 + 주문 내역 리스트 -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <!-- 메뉴별 판매 현황 (4컬럼) -->
       <div class="lg:col-span-4 cafe-card rounded-3xl p-5 space-y-3">
         <h3 class="text-sm sm:text-base font-extrabold text-[#3E2723] flex items-center gap-1.5">
           <span>📊</span> 메뉴별 판매 수량
@@ -342,7 +375,9 @@
         </div>
       </div>
 
+      <!-- 실시간 주문 목록 (8컬럼) -->
       <div class="lg:col-span-8 space-y-3">
+        <!-- 필터 + 일괄 프린트 컨트롤 바 -->
         <div class="cafe-card rounded-3xl p-3.5 flex flex-wrap items-center justify-between gap-2">
           <div class="flex flex-wrap items-center gap-1.5">
             <button type="button" onclick="setAdminFilter('all')" data-afilter="all"
@@ -375,7 +410,8 @@
           </div>
         </div>
 
-        <div class="flex justify-end px-1">
+        <div class="flex items-center justify-between px-1">
+          <span id="lastSyncTimeLabel" class="text-[11px] text-[#8D6E63]">마지막 확인: 방금 전</span>
           <button type="button" onclick="resetAllOrders()"
             class="text-[11px] font-semibold text-[#9E7B6E] hover:text-[#C85A48] underline cursor-pointer">
             로컬 테스트 주문 초기화
@@ -391,9 +427,10 @@
     </div>
   </section>
 
-  <!-- ==================== 3. 영수증 출력 모달 ==================== -->
+  <!-- ==================== 3. 영수증 출력 모달 (단건 & 다중 합동 & 수량별 분할 지원) ==================== -->
   <div id="receiptModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
+      <!-- 모달 상단 안내 및 출력 모드 전환 -->
       <div class="no-print border-b border-[#F2E7D9] pb-3 space-y-2">
         <div class="flex items-center justify-between">
           <h3 class="text-sm sm:text-base font-extrabold text-[#3E2723]">🧾 주문 영수증 미리보기</h3>
@@ -411,6 +448,7 @@
         </div>
       </div>
 
+      <!-- 실제 인쇄 영역 -->
       <div class="overflow-y-auto flex-1 pr-1 space-y-4">
         <div id="printArea" class="space-y-4"></div>
       </div>
@@ -463,12 +501,12 @@
 
       <div class="space-y-3 text-xs">
         <div class="p-3 rounded-2xl bg-[#E8F5E9] border border-[#C5E1C7] text-[#1B5E20] space-y-1">
-          <p class="font-extrabold">💡 구글 Apps Script 웹 앱으로 배포하신 경우</p>
-          <p class="text-[11px] leading-relaxed">아래 <b>Code.gs 전체 코드</b>를 그대로 복사해 Apps Script의 <code>Code.gs</code>에 붙여넣고, 이 HTML 코드를 <code>index.html</code>에 넣어 배포하면 별도 URL 입력 없이도 자동으로 구글 시트와 실시간 양방향 연동됩니다!</p>
+          <p class="font-extrabold">💡 GitHub Pages & 구글 시트 실시간 양방향 연동 안내</p>
+          <p class="text-[11px] leading-relaxed">아래 <b>Code.gs 전체 코드</b>를 구글 Apps Script에 붙여넣고 <b>새 버전으로 재배포</b>한 뒤, 발급된 <code>/exec</code> 주소를 아래 1번 칸에 저장하면 GitHub Pages에서도 10초마다 새 주문을 자동으로 불러오고 벨소리가 울립니다!</p>
         </div>
 
         <div>
-          <label class="block font-extrabold text-[#5D4037] mb-1">1. 외부 호스팅 사용 시 Apps Script 웹 앱 URL (선택)</label>
+          <label class="block font-extrabold text-[#5D4037] mb-1">1. Apps Script 웹 앱 URL (GitHub 배포 시 필수)</label>
           <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/.../exec"
             class="w-full px-3 py-2 rounded-xl bg-[#FAF6F0] border border-[#E2D2BE]" />
         </div>
@@ -487,13 +525,18 @@
 
         <div class="bg-[#FAF6F0] border border-[#E6D7C3] rounded-2xl p-3 space-y-2">
           <div class="flex items-center justify-between">
-            <span class="font-extrabold text-[#5D4037]">📋 구글 시트용 Code.gs 전체 코드 (웹앱+시트 양방향)</span>
+            <span class="font-extrabold text-[#5D4037]">📋 구글 시트용 Code.gs 전체 코드 (GET 조회 + POST 저장 지원)</span>
             <button type="button" onclick="copyGasCode()"
               class="px-2.5 py-1 rounded-lg bg-[#2E7D32] text-white font-bold text-[11px] cursor-pointer">
               Code.gs 복사
             </button>
           </div>
           <pre id="gasCodeBlock" class="text-[10px] bg-white p-2.5 rounded-xl border border-[#E6D7C3] overflow-x-auto text-[#3E2723] leading-relaxed">function doGet(e) {
+  if (e &amp;&amp; e.parameter &amp;&amp; e.parameter.action === 'getOrders') {
+    var orders = getAllOrdersFromSheet();
+    return ContentService.createTextOutput(JSON.stringify({ ok: true, orders: orders }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
   return HtmlService.createHtmlOutputFromFile('index')
     .setTitle('축제 바리스타 카페')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
@@ -534,10 +577,10 @@ function createOrderInSheet(order) {
 function getAllOrdersFromSheet() {
   var sheet = getOrCreateCafeSheet();
   var lastRow = sheet.getLastRow();
-  if (lastRow <= 1) return [];
+  if (lastRow &lt;= 1) return [];
   var values = sheet.getRange(2, 1, lastRow - 1, 13).getValues();
   var list = [];
-  for (var i = values.length - 1; i >= 0; i--) {
+  for (var i = values.length - 1; i &gt;= 0; i--) {
     var r = values[i];
     var parsedItems = [];
     try { parsedItems = JSON.parse(r[12] || '[]'); } catch(err) {}
@@ -563,9 +606,9 @@ function getAllOrdersFromSheet() {
 function toggleOrderStatusInSheet(orderId, newStatus) {
   var sheet = getOrCreateCafeSheet();
   var lastRow = sheet.getLastRow();
-  if (lastRow <= 1) return [];
+  if (lastRow &lt;= 1) return [];
   var ids = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
-  for (var i = 0; i < ids.length; i++) {
+  for (var i = 0; i &lt; ids.length; i++) {
     if (String(ids[i][0]) === String(orderId)) {
       sheet.getRange(i + 2, 12).setValue(newStatus);
       break;
@@ -581,7 +624,7 @@ function doPost(e) {
   } else if (data.action === 'status') {
     toggleOrderStatusInSheet(data.orderId, data.status);
   }
-  return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
 }</pre>
         </div>
       </div>
@@ -603,19 +646,23 @@ function doPost(e) {
   <div id="toast" class="hidden fixed top-16 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full bg-[#3E2723] text-white text-xs font-bold shadow-lg"></div>
 
   <script>
+    // ==================== 메뉴 데이터 (8종 - 최신 가격 반영) ====================
     const MENU_ITEMS = [
-      { id: 'americano', name: '아메리카노', category: 'coffee', price: 2000, emoji: '☕', desc: '고소하고 깔끔한 스페셜티 블렌드', hasTemp: true },
-      { id: 'latte', name: '카페라떼', category: 'coffee', price: 2500, emoji: '🥛', desc: '부드러운 우유와 에스프레소의 조화', hasTemp: true },
-      { id: 'decaf_dutch', name: '디카페인 더치커피', category: 'coffee', price: 3000, emoji: '💧', desc: '카페인 부담 없이 즐기는 깊은 풍미', hasTemp: true },
-      { id: 'icetea', name: '복숭아 아이스티', category: 'ade', price: 2500, emoji: '🍑', desc: '달콤하고 시원한 복숭아 아이스티', fixedTemp: 'ICE' },
-      { id: 'strawberry_ade', name: '딸기에이드', category: 'ade', price: 3000, emoji: '🍓', desc: '상큼한 딸기 과육이 톡톡 터지는 에이드', fixedTemp: 'ICE' },
-      { id: 'mango_ade', name: '망고에이드', category: 'ade', price: 3000, emoji: '🥭', desc: '달콤한 열대 망고의 진한 청량감', fixedTemp: 'ICE' },
-      { id: 'affogato', name: '아포가토', category: 'dessert', price: 3500, emoji: '🍨', desc: '바닐라 아이스크림 위 진한 에스프레소', fixedTemp: 'DESSERT' },
-      { id: 'smore_cookie', name: '스모어쿠키', category: 'dessert', price: 2500, emoji: '🍪', desc: '쫀득한 마시멜로와 초콜릿 수제 쿠키', fixedTemp: 'DESSERT' }
+      { id: 'americano', name: '아메리카노', category: 'coffee', price: 1000, emoji: '☕', desc: '고소하고 깔끔한 스페셜티 블렌드', hasTemp: true },
+      { id: 'decaf_americano', name: '디카페인 아메리카노', category: 'coffee', price: 2000, emoji: '💧', desc: '카페인 부담 없이 즐기는 깔끔한 아메리카노', hasTemp: true },
+      { id: 'choco_latte', name: '초코라떼', category: 'coffee', price: 1500, emoji: '🍫', desc: '진하고 달콤한 코코아와 부드러운 우유', hasTemp: true },
+      { id: 'icetea', name: '아이스티', category: 'ade', price: 1000, emoji: '🍑', desc: '달콤하고 시원한 복숭아 아이스티', fixedTemp: 'ICE' },
+      { id: 'mango_ade', name: '망고에이드', category: 'ade', price: 2000, emoji: '🥭', desc: '달콤한 열대 망고의 진한 청량감', fixedTemp: 'ICE' },
+      { id: 'strawberry_ade', name: '딸기에이드', category: 'ade', price: 2000, emoji: '🍓', desc: '상큼한 딸기 과육이 톡톡 터지는 에이드', fixedTemp: 'ICE' },
+      { id: 'affogato', name: '아포가토', category: 'dessert', price: 2500, emoji: '🍨', desc: '바닐라 아이스크림 위 진한 에스프레소', fixedTemp: 'DESSERT' },
+      { id: 'smore_cookie', name: '스모어쿠키', category: 'dessert', price: 1000, emoji: '🍪', desc: '쫀득한 마시멜로와 초콜릿 수제 쿠키', fixedTemp: 'DESSERT' }
     ];
 
+    // ==================== 상태 관리 ====================
     const STORAGE_ORDERS_KEY = 'festival_cafe_orders_v4';
     const STORAGE_CONFIG_KEY = 'festival_cafe_config_v4';
+
+    // Google Apps Script 내장 환경인지 자동 감지
     const isGasEnv = (typeof google !== 'undefined' && google.script && google.script.run);
 
     let cart = [];
@@ -630,17 +677,124 @@ function doPost(e) {
     let logoTapTimer = null;
     let adminPollTimer = null;
 
+    // 새 주문 벨소리 알림 상태
+    let soundEnabled = true;
+    let knownOrderIds = new Set();
+    let hasInitializedOrderBaseline = false;
+    let sharedAudioCtx = null;
+
     let config = Object.assign({
       pin: '1234',
       gasUrl: '',
       bankAccount: '농협 352-0000-0000-00 (축제카페)'
     }, JSON.parse(localStorage.getItem(STORAGE_CONFIG_KEY) || '{}'));
 
+    // ==================== Web Audio API 벨소리 시스템 ("딩~ 동~♪") ====================
+    function ensureAudioContext() {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return null;
+      if (!sharedAudioCtx) {
+        sharedAudioCtx = new AudioContextClass();
+      }
+      if (sharedAudioCtx.state === 'suspended') {
+        sharedAudioCtx.resume().catch(() => {});
+      }
+      return sharedAudioCtx;
+    }
+
+    function playOrderChime(forcePlay = false) {
+      if (!soundEnabled && !forcePlay) return;
+      try {
+        const ctx = ensureAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+
+        // 1음: 딩 (E5 = 659.25Hz)
+        const osc1 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(659.25, now);
+        gain1.gain.setValueAtTime(0.001, now);
+        gain1.gain.exponentialRampToValueAtTime(0.28, now + 0.03);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.58);
+
+        // 2음: 동 (C5 = 523.25Hz)
+        const osc2 = ctx.createOscillator();
+        const gain2 = ctx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(523.25, now + 0.28);
+        gain2.gain.setValueAtTime(0.001, now + 0.28);
+        gain2.gain.exponentialRampToValueAtTime(0.32, now + 0.32);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.05);
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.start(now + 0.28);
+        osc2.stop(now + 1.08);
+      } catch (err) {
+        console.warn('Audio chime skipped:', err);
+      }
+    }
+
+    function toggleSoundEnabled() {
+      soundEnabled = !soundEnabled;
+      const btn = document.getElementById('soundToggleBtn');
+      if (soundEnabled) {
+        ensureAudioContext();
+        btn.className = 'px-3 py-1.5 rounded-xl text-xs font-extrabold bg-[#F59E0B] text-white shadow-xs transition cursor-pointer';
+        btn.textContent = '🔔 알림음 켜짐';
+        playOrderChime(true);
+        showToast('새 주문 벨소리 알림이 켜졌습니다 🔔');
+      } else {
+        btn.className = 'px-3 py-1.5 rounded-xl text-xs font-extrabold bg-[#E5E7EB] text-[#4B5563] transition cursor-pointer';
+        btn.textContent = '🔕 알림음 꺼짐';
+        showToast('새 주문 벨소리 알림이 꺼졌습니다 🔕');
+      }
+    }
+
+    function testOrderChime() {
+      ensureAudioContext();
+      playOrderChime(true);
+      showToast('딩동~♪ 새 주문 알림음이 정상 작동합니다!');
+    }
+
+    // 새 주문 도착 여부 비교 및 벨소리 트리거
+    function checkNewOrdersAndNotify(latestOrders) {
+      if (!Array.isArray(latestOrders)) return;
+      const currentIds = new Set(latestOrders.map(o => String(o.id)));
+
+      if (!hasInitializedOrderBaseline) {
+        knownOrderIds = currentIds;
+        hasInitializedOrderBaseline = true;
+        return;
+      }
+
+      const newlyArrived = latestOrders.filter(o => !knownOrderIds.has(String(o.id)));
+      knownOrderIds = currentIds;
+
+      if (newlyArrived.length > 0) {
+        playOrderChime(false);
+        const first = newlyArrived[0];
+        showToast(`🔔 새 주문 도착! ${first.orderNo} (${first.location} · ${first.customerName})`);
+      }
+    }
+
+    // ==================== 초기화 ====================
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('displayBankAccount').textContent = config.bankAccount;
       if (isGasEnv) {
         document.getElementById('syncText').textContent = '구글 시트 실시간 연동됨';
+      } else if (config.gasUrl) {
+        document.getElementById('syncText').textContent = '외부 시트 연동됨';
       }
+
+      // 초기 로컬 주문 ID 기준선 등록
+      getOrders().forEach(o => knownOrderIds.add(String(o.id)));
+      hasInitializedOrderBaseline = true;
+
       renderMenu();
       renderCart();
 
@@ -650,9 +804,14 @@ function doPost(e) {
       }
     });
 
+    // 같은 브라우저 다른 탭에서 주문 시 즉시 감지 및 벨소리 울림
     window.addEventListener('storage', (e) => {
-      if (e.key === STORAGE_ORDERS_KEY && !document.getElementById('adminView').classList.contains('hidden')) {
-        renderAdminDashboard();
+      if (e.key === STORAGE_ORDERS_KEY) {
+        const updatedOrders = getOrders();
+        if (!document.getElementById('adminView').classList.contains('hidden')) {
+          checkNewOrdersAndNotify(updatedOrders);
+          renderAdminDashboard();
+        }
       }
     });
 
@@ -661,9 +820,10 @@ function doPost(e) {
       el.textContent = msg;
       el.classList.remove('hidden');
       clearTimeout(el._timer);
-      el._timer = setTimeout(() => el.classList.add('hidden'), 2400);
+      el._timer = setTimeout(() => el.classList.add('hidden'), 3000);
     }
 
+    // ==================== 메뉴 렌더링 ====================
     function setCategory(cat) {
       currentCategory = cat;
       document.querySelectorAll('.cat-btn').forEach(btn => {
@@ -720,6 +880,7 @@ function doPost(e) {
       }).join('');
     }
 
+    // ==================== 장바구니 기능 ====================
     function addToCart(menuId, temp) {
       const item = MENU_ITEMS.find(m => m.id === menuId);
       if (!item) return;
@@ -803,6 +964,7 @@ function doPost(e) {
       }).join('');
     }
 
+    // ==================== 수령방식 & 결제수단 ====================
     function setOrderType(type) {
       orderType = type;
       const isDelivery = type === '배달';
@@ -834,7 +996,14 @@ function doPost(e) {
     }
 
     function copyBankAccount() {
-      navigator.clipboard?.writeText(config.bankAccount);
+      const textarea = document.createElement('textarea');
+      textarea.value = config.bankAccount;
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+      } catch (err) {}
+      document.body.removeChild(textarea);
       showToast('계좌번호가 복사되었습니다 📋');
     }
 
@@ -842,6 +1011,7 @@ function doPost(e) {
       document.getElementById('orderPanel').scrollIntoView({ behavior: 'smooth' });
     }
 
+    // ==================== 주문 저장 및 구글 시트 양방향 연동 ====================
     function getOrders() {
       return JSON.parse(localStorage.getItem(STORAGE_ORDERS_KEY) || '[]');
     }
@@ -854,6 +1024,12 @@ function doPost(e) {
       const d = new Date();
       const pad = n => String(n).padStart(2, '0');
       return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    function formatTimeOnly() {
+      const d = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
     }
 
     async function submitOrder() {
@@ -905,6 +1081,7 @@ function doPost(e) {
       btn.textContent = '주문 접수 중... ⏳';
 
       const finishLocalAndReceipt = (finalOrder) => {
+        knownOrderIds.add(String(finalOrder.id));
         const updated = getOrders().filter(o => o.id !== finalOrder.id);
         updated.unshift(finalOrder);
         saveOrders(updated);
@@ -920,6 +1097,7 @@ function doPost(e) {
         google.script.run
           .withSuccessHandler((serverOrders) => {
             if (Array.isArray(serverOrders) && serverOrders.length > 0) {
+              serverOrders.forEach(o => knownOrderIds.add(String(o.id)));
               saveOrders(serverOrders);
               const matched = serverOrders.find(o => o.id === newOrder.id) || serverOrders[0];
               openReceiptModal([matched], 'perCup');
@@ -953,23 +1131,54 @@ function doPost(e) {
       }
     }
 
-    function syncOrdersFromServer(showNotify = false) {
-      if (!isGasEnv) {
-        renderAdminDashboard();
-        if (showNotify) showToast('목록을 새로고침했습니다.');
+    // 구글 시트에서 주문 목록 불러오기 (Apps Script 내장 및 GitHub Pages 외부 URL 모두 지원)
+    async function syncOrdersFromServer(showNotify = false) {
+      const updateSyncLabel = () => {
+        const el = document.getElementById('lastSyncTimeLabel');
+        if (el) el.textContent = `마지막 확인: ${formatTimeOnly()}`;
+      };
+
+      if (isGasEnv) {
+        google.script.run
+          .withSuccessHandler((serverOrders) => {
+            if (Array.isArray(serverOrders)) {
+              checkNewOrdersAndNotify(serverOrders);
+              saveOrders(serverOrders);
+              renderAdminDashboard();
+              updateSyncLabel();
+              if (showNotify) showToast('구글 시트와 동기화되었습니다 ✅');
+            }
+          })
+          .getAllOrdersFromSheet();
         return;
       }
-      google.script.run
-        .withSuccessHandler((serverOrders) => {
-          if (Array.isArray(serverOrders)) {
-            saveOrders(serverOrders);
+
+      if (config.gasUrl) {
+        try {
+          const sep = config.gasUrl.includes('?') ? '&' : '?';
+          const res = await fetch(`${config.gasUrl}${sep}action=getOrders&t=${Date.now()}`);
+          const data = await res.json();
+          if (data && Array.isArray(data.orders)) {
+            checkNewOrdersAndNotify(data.orders);
+            saveOrders(data.orders);
             renderAdminDashboard();
-            if (showNotify) showToast('구글 시트와 동기화되었습니다 ✅');
+            updateSyncLabel();
+            if (showNotify) showToast('구글 시트 주문 목록을 불러왔습니다 ✅');
+            return;
           }
-        })
-        .getAllOrdersFromSheet();
+        } catch (err) {
+          console.warn('External GAS GET fetch failed:', err);
+        }
+      }
+
+      const localOrders = getOrders();
+      checkNewOrdersAndNotify(localOrders);
+      renderAdminDashboard();
+      updateSyncLabel();
+      if (showNotify) showToast('목록을 새로고침했습니다.');
     }
 
+    // ==================== 영수증 렌더링 (갯수별 개별 출력 + 다중 합동 출력 + HOT/ICE 색상) ====================
     function getTempBadgeHtml(temp) {
       if (temp === 'HOT') {
         return `<span class="badge-hot inline-block px-2 py-0.5 rounded-md text-[11px] font-black">🔥 HOT</span>`;
@@ -1157,6 +1366,7 @@ function doPost(e) {
       document.getElementById('receiptModal').classList.add('hidden');
     }
 
+    // ==================== 대시보드 진입 및 다중 선택 프린트 관리 ====================
     function handleLogoSecretTap() {
       logoTapCount += 1;
       clearTimeout(logoTapTimer);
@@ -1182,6 +1392,7 @@ function doPost(e) {
     function verifyAdminPin() {
       const val = document.getElementById('adminPinInput').value.trim();
       if (val === config.pin) {
+        ensureAudioContext();
         closeAdminGate();
         enterAdminView();
       } else {
@@ -1193,11 +1404,14 @@ function doPost(e) {
       document.getElementById('orderView').classList.add('hidden');
       document.getElementById('mobileCartBar').classList.add('hidden');
       document.getElementById('adminView').classList.remove('hidden');
+
+      // 대시보드 진입 시 현재 주문 목록 기준선 초기화
+      knownOrderIds = new Set(getOrders().map(o => String(o.id)));
+      hasInitializedOrderBaseline = true;
+
       syncOrdersFromServer(false);
       clearInterval(adminPollTimer);
-      if (isGasEnv) {
-        adminPollTimer = setInterval(() => syncOrdersFromServer(false), 10000);
-      }
+      adminPollTimer = setInterval(() => syncOrdersFromServer(false), 10000);
     }
 
     function exitAdminView() {
@@ -1301,9 +1515,9 @@ function doPost(e) {
     }
 
     function resetAllOrders() {
-      if (!confirm('브라우저에 저장된 로컬 주문 목록을 초기화할까요?')) return;
       saveOrders([]);
       selectedOrderIds.clear();
+      knownOrderIds.clear();
       updateSelectedCounter();
       renderAdminDashboard();
       showToast('로컬 주문 내역이 초기화되었습니다.');
@@ -1419,6 +1633,7 @@ function doPost(e) {
       }).join('');
     }
 
+    // ==================== 설정 모달 ====================
     function openSettingsModal() {
       document.getElementById('gasUrlInput').value = config.gasUrl || '';
       document.getElementById('bankAccountInput').value = config.bankAccount || '';
@@ -1438,13 +1653,26 @@ function doPost(e) {
 
       localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(config));
       document.getElementById('displayBankAccount').textContent = config.bankAccount;
+      if (config.gasUrl && !isGasEnv) {
+        document.getElementById('syncText').textContent = '외부 시트 연동됨';
+      }
       closeSettingsModal();
       showToast('설정이 저장되었습니다 ✅');
+      if (!document.getElementById('adminView').classList.contains('hidden')) {
+        syncOrdersFromServer(false);
+      }
     }
 
     function copyGasCode() {
       const code = document.getElementById('gasCodeBlock').textContent;
-      navigator.clipboard?.writeText(code);
+      const textarea = document.createElement('textarea');
+      textarea.value = code;
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+      } catch (err) {}
+      document.body.removeChild(textarea);
       showToast('Code.gs 코드가 복사되었습니다 📋');
     }
   </script>
